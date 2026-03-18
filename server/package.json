@@ -2,7 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "dependencies": {
     "@apollo/server": "^5.4.0",
     "accepts": "^2.0.0",
