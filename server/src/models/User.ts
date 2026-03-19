@@ -6,7 +6,6 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: [true, "Username is required"],
       unique: true,
-      minLength: [8, "Username must be at least 8 characters"],
     },
     email: {
       type: String,
@@ -21,3 +20,5 @@ const UserSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
+
+export const User = mongoose.model("User", UserSchema);
