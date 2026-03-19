@@ -1,5 +1,6 @@
 import express from "express";
 import { ApolloServer } from "@apollo/server";
+import { expressMiddleware } from "@as-integrations/express5";
 import cors from "cors";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
@@ -11,19 +12,25 @@ import { context } from "./context/context";
 
 dotenv.config();
 
-const startServer = async () => {
+async function startServer() {
   const app = express();
-  await connectDB();
-
   const server = new ApolloServer({ typeDefs, resolvers });
   await server.start();
 
-  app.use("/graphql", cors(), bodyParser.json());
+  await connectDB();
+
+  app.use(
+    "/graphql",
+    cors<cors.CorsRequest>(),
+    express.json(),
+    expressMiddleware(server),
+    bodyParser.json(),
+  );
 
   const PORT = process.env.PORT || 4000;
   app.listen(PORT, () =>
     console.log(`Server running on http://localhost:${PORT}/graphql`),
   );
-};
+}
 
 startServer();
